@@ -1,6 +1,4 @@
 const notesQty = 40;
-const numArray = Array.from(document.querySelectorAll(".note"));
-const numArrayKeys = [...numArray.keys()];
 
 //Create elements for the first time
 const createElements = () => {
@@ -15,6 +13,8 @@ const createElements = () => {
         createDiv.innerHTML = `<span>${i + 1}</span>`;
     }
 };
+createElements();
+
 //Create elements - END
 
 //Sort array of notes
@@ -36,6 +36,9 @@ const sortDivs = (sortParam) => {
 };
 //Sort array of notes - END
 
+const numArray = Array.from(document.querySelectorAll(".note"));
+const numArrayKeys = [...numArray.keys()];
+
 const fourColumnLayout = () => {
     let fourColsCounter = -1;
     const fourCols = numArrayKeys.map(() => {
@@ -56,12 +59,16 @@ const fourColumnLayout = () => {
         }
     });
 
-    return newArrayFourCols.col1.concat(
+    const sortParam = newArrayFourCols.col1.concat(
         newArrayFourCols.col2.concat(
             newArrayFourCols.col3.concat(newArrayFourCols.col4)
         )
     );
+
+    return sortParam;
 };
+
+fourColumnLayout();
 
 const threeColumnLayout = () => {
     let threeColsCounter = -1;
@@ -81,9 +88,11 @@ const threeColumnLayout = () => {
         }
     });
 
-    return newArrayThreeCols.col1.concat(
+    const sortParam = newArrayThreeCols.col1.concat(
         newArrayThreeCols.col2.concat(newArrayThreeCols.col3)
     );
+
+    return sortParam;
 };
 
 const twoColumnLayout = () => {
@@ -102,7 +111,9 @@ const twoColumnLayout = () => {
         }
     });
 
-    return newArrayTwoCols.col1.concat(newArrayTwoCols.col2);
+    const sortParam = newArrayTwoCols.col1.concat(newArrayTwoCols.col2);
+
+    return sortParam;
 };
 
 const rearangeColumns = () => {
@@ -118,15 +129,15 @@ const rearangeColumns = () => {
             console.log("I have 5 columns!");
             break;
         case 4:
-            fourColumnLayout();
+            sortDivs(fourColumnLayout());
             console.log("I have 4 columns!");
             break;
         case 3:
-            threeColumnLayout();
+            sortDivs(threeColumnLayout());
             console.log("I have 3 columns!");
             break;
         case 2:
-            twoColumnLayout();
+            sortDivs(twoColumnLayout());
             console.log("I have 2 columns!");
             break;
         case 1:
@@ -136,7 +147,6 @@ const rearangeColumns = () => {
 };
 
 window.addEventListener("DOMContentLoaded", () => {
-    createElements();
     rearangeColumns();
 });
 window.addEventListener("resize", () => {
