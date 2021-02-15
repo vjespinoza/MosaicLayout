@@ -1,22 +1,44 @@
-//Create elements
-const divLength = 40;
-
-for (let i = 0; i < divLength; i++) {
-    const createDiv = document
-        .getElementById("notesWrapper")
-        .appendChild(document.createElement("div"));
-    createDiv.setAttribute("class", "note");
-    createDiv.setAttribute("key", i);
-    createDiv.innerHTML = `<span>${i + 1}</span>`;
-}
-//Create elements - END
-
+const notesQty = 40;
 const numArray = Array.from(document.querySelectorAll(".note"));
 const numArrayKeys = [...numArray.keys()];
 
+//Create elements for the first time
+const createElements = () => {
+    const divLength = notesQty;
+    // console.log(divLength);
+    for (let i = 0; i < divLength; i++) {
+        const createDiv = document
+            .getElementById("notesWrapper")
+            .appendChild(document.createElement("div"));
+        createDiv.setAttribute("class", "note");
+        createDiv.setAttribute("key", i);
+        createDiv.innerHTML = `<span>${i + 1}</span>`;
+    }
+};
+//Create elements - END
+
+//Sort array of notes
+const sortDivs = (sortParam) => {
+    const noteLength = notesQty;
+    console.log(sortParam);
+    //Reset elements
+    document.getElementById("notesWrapper").innerHTML = "";
+
+    for (let i = 0; i < noteLength; i++) {
+        const createDiv = document
+            .getElementById("notesWrapper")
+            .appendChild(document.createElement("div"));
+
+        createDiv.setAttribute("class", "note");
+        createDiv.setAttribute("key", sortParam[i]);
+        createDiv.innerHTML = `<span>${sortParam[i] + 1}</span>`;
+    }
+};
+//Sort array of notes - END
+
 const fourColumnLayout = () => {
     let fourColsCounter = -1;
-    const fourCols = numArrayKeys.map((num) => {
+    const fourCols = numArrayKeys.map(() => {
         return (fourColsCounter += 4);
     });
 
@@ -43,7 +65,7 @@ const fourColumnLayout = () => {
 
 const threeColumnLayout = () => {
     let threeColsCounter = -1;
-    const threeCols = numArrayKeys.map((num) => {
+    const threeCols = numArrayKeys.map(() => {
         return (threeColsCounter += 3);
     });
 
@@ -66,7 +88,7 @@ const threeColumnLayout = () => {
 
 const twoColumnLayout = () => {
     let twoColsCounter = -1;
-    const twoCols = numArrayKeys.map((num) => {
+    const twoCols = numArrayKeys.map(() => {
         return (twoColsCounter += 2);
     });
 
@@ -80,31 +102,13 @@ const twoColumnLayout = () => {
         }
     });
 
-    const sortParam = newArrayTwoCols.col1.concat(newArrayTwoCols.col2);
-
-    document.getElementById("notesWrapper").innerHTML = "";
-
-    for (let i = 0; i < divLength; i++) {
-        const createDiv = document
-            .getElementById("notesWrapper")
-            .appendChild(document.createElement("div"));
-
-        createDiv.setAttribute("class", "note");
-        createDiv.setAttribute("key", sortParam[i]);
-        createDiv.innerHTML = `<span>${sortParam[i] + 1}</span>`;
-    }
-
-    console.log(numArrayKeys);
+    return newArrayTwoCols.col1.concat(newArrayTwoCols.col2);
 };
 
-fourColumnLayout();
-threeColumnLayout();
-twoColumnLayout();
-
-window.addEventListener("resize", () => {
+const rearangeColumns = () => {
     const notesWrapper = document.getElementById("notesWrapper");
     const columnsCalc = Math.floor(notesWrapper.clientWidth / 248);
-    console.log(columnsCalc);
+    // console.log(columnsCalc);
 
     switch (columnsCalc) {
         case 6:
@@ -129,4 +133,12 @@ window.addEventListener("resize", () => {
             console.log("I have 1 column!");
             break;
     }
+};
+
+window.addEventListener("DOMContentLoaded", () => {
+    createElements();
+    rearangeColumns();
+});
+window.addEventListener("resize", () => {
+    rearangeColumns();
 });
