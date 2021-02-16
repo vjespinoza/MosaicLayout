@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("load", () => {
     columnDivs();
     createElements();
     rearangeColumns();
@@ -26,7 +26,7 @@ const createElements = () => {
     for (let i = 0; i < divLength; i++) {
         const note = document.createElement("div");
         note.setAttribute("class", "note");
-        note.setAttribute("key", i);
+        note.setAttribute("id", `note${i + 1}`);
         note.innerHTML = `<span>${i + 1}</span>`;
         notes.push(note);
     }
@@ -45,32 +45,21 @@ const sixColumnLayout = () => {
         return (sixColsCounter += 6);
     });
 
-    const newArraySixCols = {
-        col1: [],
-        col2: [],
-        col3: [],
-        col4: [],
-        col5: [],
-        col6: [],
-    };
-
-    numArrayKeys.map((num) => {
+    return numArrayKeys.map((num) => {
         if (sixCols.includes(num + 5)) {
-            newArraySixCols.col1.push(num);
+            document.getElementById("col1").append(numArray[num]);
         } else if (sixCols.includes(num + 4)) {
-            newArraySixCols.col2.push(num);
+            document.getElementById("col2").append(numArray[num]);
         } else if (sixCols.includes(num + 3)) {
-            newArraySixCols.col3.push(num);
+            document.getElementById("col3").append(numArray[num]);
         } else if (sixCols.includes(num + 2)) {
-            newArraySixCols.col4.push(num);
+            document.getElementById("col4").append(numArray[num]);
         } else if (sixCols.includes(num + 1)) {
-            newArraySixCols.col5.push(num);
+            document.getElementById("col5").append(numArray[num]);
         } else if (sixCols.includes(num)) {
-            newArraySixCols.col6.push(num);
+            document.getElementById("col6").append(numArray[num]);
         }
     });
-
-    return newArraySixCols;
 };
 
 const fiveColumnLayout = () => {
@@ -79,29 +68,19 @@ const fiveColumnLayout = () => {
         return (fiveColsCounter += 5);
     });
 
-    const newArrayFiveCols = {
-        col1: [],
-        col2: [],
-        col3: [],
-        col4: [],
-        col5: [],
-    };
-
-    numArrayKeys.map((num) => {
+    return numArrayKeys.map((num) => {
         if (fiveCols.includes(num + 4)) {
-            newArrayFiveCols.col1.push(num);
+            document.getElementById("col1").append(numArray[num]);
         } else if (fiveCols.includes(num + 3)) {
-            newArrayFiveCols.col2.push(num);
+            document.getElementById("col2").append(numArray[num]);
         } else if (fiveCols.includes(num + 2)) {
-            newArrayFiveCols.col3.push(num);
+            document.getElementById("col3").append(numArray[num]);
         } else if (fiveCols.includes(num + 1)) {
-            newArrayFiveCols.col4.push(num);
+            document.getElementById("col4").append(numArray[num]);
         } else if (fiveCols.includes(num)) {
-            newArrayFiveCols.col5.push(num);
+            document.getElementById("col5").append(numArray[num]);
         }
     });
-
-    return newArrayFiveCols;
 };
 
 const fourColumnLayout = () => {
@@ -110,21 +89,17 @@ const fourColumnLayout = () => {
         return (fourColsCounter += 4);
     });
 
-    const newArrayFourCols = { col1: [], col2: [], col3: [], col4: [] };
-
-    numArrayKeys.map((num) => {
+    return numArrayKeys.map((num) => {
         if (fourCols.includes(num + 3)) {
-            newArrayFourCols.col1.push(num);
+            document.getElementById("col1").append(numArray[num]);
         } else if (fourCols.includes(num + 2)) {
-            newArrayFourCols.col2.push(num);
+            document.getElementById("col2").append(numArray[num]);
         } else if (fourCols.includes(num + 1)) {
-            newArrayFourCols.col3.push(num);
+            document.getElementById("col3").append(numArray[num]);
         } else if (fourCols.includes(num)) {
-            newArrayFourCols.col4.push(num);
+            document.getElementById("col4").append(numArray[num]);
         }
     });
-
-    return newArrayFourCols;
 };
 
 const threeColumnLayout = () => {
@@ -133,19 +108,15 @@ const threeColumnLayout = () => {
         return (threeColsCounter += 3);
     });
 
-    const newArrayThreeCols = { col1: [], col2: [], col3: [] };
-
-    numArrayKeys.map((num) => {
+    return numArrayKeys.map((num) => {
         if (threeCols.includes(num + 2)) {
-            newArrayThreeCols.col1.push(num);
+            document.getElementById("col1").append(numArray[num]);
         } else if (threeCols.includes(num + 1)) {
-            newArrayThreeCols.col2.push(num);
+            document.getElementById("col2").append(numArray[num]);
         } else if (threeCols.includes(num)) {
-            newArrayThreeCols.col3.push(num);
+            document.getElementById("col3").append(numArray[num]);
         }
     });
-
-    return newArrayThreeCols;
 };
 
 const twoColumnLayout = () => {
@@ -154,52 +125,67 @@ const twoColumnLayout = () => {
         return (twoColsCounter += 2);
     });
 
-    const newArrayTwoCols = { col1: [], col2: [] };
-
-    numArrayKeys.map((num) => {
+    return numArrayKeys.map((num) => {
         if (twoCols.includes(num + 1)) {
-            newArrayTwoCols.col1.push(num);
+            document.getElementById("col1").append(numArray[num]);
         } else if (twoCols.includes(num)) {
-            newArrayTwoCols.col2.push(num);
+            document.getElementById("col2").append(numArray[num]);
         }
     });
+};
 
-    return newArrayTwoCols;
+const oneColumnLayout = () => {
+    let oneColsCounter = -1;
+    const oneCols = numArrayKeys.map(() => {
+        return (oneColsCounter += 1);
+    });
+
+    return numArrayKeys.map((num) => {
+        if (oneCols.includes(num + 1)) {
+            document.getElementById("col1").append(numArray[num]);
+        } else if (oneCols.includes(num)) {
+            document.getElementById("col2").append(numArray[num]);
+        }
+    });
 };
 
 const rearangeColumns = () => {
     const notesWrapper = document.getElementById("notesWrapper");
-    const columnsCalc = Math.floor(notesWrapper.clientWidth / 248);
+    const columnsCalc = Math.floor(notesWrapper.clientWidth / 238);
 
-    switch (columnsCalc) {
-        case 6:
+    switch (true) {
+        case columnsCalc === 6:
             columnDivs(6);
             sixColumnLayout();
             console.log("I have 6 columns!");
             break;
-        case 5:
+        case columnsCalc === 5:
             columnDivs(5);
             fiveColumnLayout();
             console.log("I have 5 columns!");
             break;
-        case 4:
+        case columnsCalc === 4:
             columnDivs(4);
             fourColumnLayout();
             console.log("I have 4 columns!");
             break;
-        case 3:
+        case columnsCalc === 3:
             columnDivs(3);
             threeColumnLayout();
             console.log("I have 3 columns!");
             break;
-        case 2:
+        case columnsCalc === 2:
             columnDivs(2);
             twoColumnLayout();
             console.log("I have 2 columns!");
             break;
-        case 1:
+        case columnsCalc === 1:
             columnDivs(1);
+            oneColumnLayout();
             console.log("I have 1 column!");
+            break;
+        case columnsCalc >= 7:
+            document.getElementById("notesWrapper").append(numArray);
             break;
     }
 };
