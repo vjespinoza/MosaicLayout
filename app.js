@@ -3,8 +3,29 @@ window.addEventListener("load", () => {
     createElements();
     rearangeColumns();
 });
-window.addEventListener("resize", () => {
-    rearangeColumns();
+window.addEventListener("resize", (e) => {
+    const elementWidth = document.getElementById("notesWrapper").clientWidth;
+    const fractions = Math.floor(elementWidth / 248);
+
+    if (fractions === 1) {
+        rearangeColumns();
+        cleanUp();
+    } else if (fractions === 2) {
+        rearangeColumns();
+        cleanUp();
+    } else if (fractions === 3) {
+        rearangeColumns();
+        cleanUp();
+    } else if (fractions === 4) {
+        rearangeColumns();
+        cleanUp();
+    } else if (fractions === 5) {
+        rearangeColumns();
+        cleanUp();
+    } else if (fractions === 6) {
+        rearangeColumns();
+        cleanUp();
+    }
 });
 
 //Creates columns for the notes
@@ -22,7 +43,6 @@ const columnDivs = (col) => {
 const createElements = () => {
     const divLength = 40;
     const notes = [];
-    // console.log(divLength);
     for (let i = 0; i < divLength; i++) {
         const note = document.createElement("div");
         note.setAttribute("class", "note");
@@ -141,51 +161,56 @@ const oneColumnLayout = () => {
     });
 
     return numArrayKeys.map((num) => {
-        if (oneCols.includes(num + 1)) {
+        if (oneCols.includes(num)) {
             document.getElementById("col1").append(numArray[num]);
-        } else if (oneCols.includes(num)) {
-            document.getElementById("col2").append(numArray[num]);
         }
     });
 };
 
+//Assings a layout to the colDiv's based on the calculated amount of columns.
 const rearangeColumns = () => {
     const notesWrapper = document.getElementById("notesWrapper");
     const columnsCalc = Math.floor(notesWrapper.clientWidth / 238);
 
-    switch (true) {
-        case columnsCalc === 6:
+    switch (columnsCalc) {
+        case 6:
             columnDivs(6);
             sixColumnLayout();
-            console.log("I have 6 columns!");
             break;
-        case columnsCalc === 5:
+        case 5:
             columnDivs(5);
             fiveColumnLayout();
-            console.log("I have 5 columns!");
             break;
-        case columnsCalc === 4:
+        case 4:
             columnDivs(4);
             fourColumnLayout();
-            console.log("I have 4 columns!");
             break;
-        case columnsCalc === 3:
+        case 3:
             columnDivs(3);
             threeColumnLayout();
-            console.log("I have 3 columns!");
             break;
-        case columnsCalc === 2:
+        case 2:
             columnDivs(2);
             twoColumnLayout();
-            console.log("I have 2 columns!");
             break;
-        case columnsCalc === 1:
+        case 1:
             columnDivs(1);
             oneColumnLayout();
-            console.log("I have 1 column!");
             break;
-        case columnsCalc >= 7:
-            document.getElementById("notesWrapper").append(numArray);
+        default:
+            columnDivs(6);
+            sixColumnLayout();
             break;
+    }
+};
+
+//Removes empty column div's created by the resize event above
+const cleanUp = () => {
+    const divList = document.querySelectorAll(".colDiv");
+
+    for (let i = 0; i < divList.length; i++) {
+        if (divList[i].hasChildNodes() === false) {
+            divList[i].remove();
+        }
     }
 };
