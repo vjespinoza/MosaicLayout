@@ -1,43 +1,108 @@
-const notesQty = 40;
+window.addEventListener("DOMContentLoaded", () => {
+    columnDivs();
+    createElements();
+    rearangeColumns();
+});
+window.addEventListener("resize", () => {
+    rearangeColumns();
+});
 
-//Create elements for the first time
-const createElements = () => {
-    const divLength = notesQty;
-    // console.log(divLength);
-    for (let i = 0; i < divLength; i++) {
-        const createDiv = document
+//Creates columns for the notes
+const columnDivs = (col) => {
+    for (let i = 0; i < col; i++) {
+        const colDiv = document
             .getElementById("notesWrapper")
             .appendChild(document.createElement("div"));
-        createDiv.setAttribute("class", "note");
-        createDiv.setAttribute("key", i);
-        createDiv.innerHTML = `<span>${i + 1}</span>`;
+        colDiv.setAttribute("id", `col${i + 1}`);
+        colDiv.setAttribute("class", "colDiv");
     }
 };
-createElements();
+
+//Creates notes for the first time
+const createElements = () => {
+    const divLength = 40;
+    const notes = [];
+    // console.log(divLength);
+    for (let i = 0; i < divLength; i++) {
+        const note = document.createElement("div");
+        note.setAttribute("class", "note");
+        note.setAttribute("key", i);
+        note.innerHTML = `<span>${i + 1}</span>`;
+        notes.push(note);
+    }
+
+    return notes;
+};
 
 //Create elements - END
 
-//Sort array of notes
-const sortDivs = (sortParam) => {
-    const noteLength = notesQty;
-    console.log(sortParam);
-    //Reset elements
-    document.getElementById("notesWrapper").innerHTML = "";
-
-    for (let i = 0; i < noteLength; i++) {
-        const createDiv = document
-            .getElementById("notesWrapper")
-            .appendChild(document.createElement("div"));
-
-        createDiv.setAttribute("class", "note");
-        createDiv.setAttribute("key", sortParam[i]);
-        createDiv.innerHTML = `<span>${sortParam[i] + 1}</span>`;
-    }
-};
-//Sort array of notes - END
-
-const numArray = Array.from(document.querySelectorAll(".note"));
+const numArray = Array.from(createElements());
 const numArrayKeys = [...numArray.keys()];
+
+const sixColumnLayout = () => {
+    let sixColsCounter = -1;
+    const sixCols = numArrayKeys.map(() => {
+        return (sixColsCounter += 6);
+    });
+
+    const newArraySixCols = {
+        col1: [],
+        col2: [],
+        col3: [],
+        col4: [],
+        col5: [],
+        col6: [],
+    };
+
+    numArrayKeys.map((num) => {
+        if (sixCols.includes(num + 5)) {
+            newArraySixCols.col1.push(num);
+        } else if (sixCols.includes(num + 4)) {
+            newArraySixCols.col2.push(num);
+        } else if (sixCols.includes(num + 3)) {
+            newArraySixCols.col3.push(num);
+        } else if (sixCols.includes(num + 2)) {
+            newArraySixCols.col4.push(num);
+        } else if (sixCols.includes(num + 1)) {
+            newArraySixCols.col5.push(num);
+        } else if (sixCols.includes(num)) {
+            newArraySixCols.col6.push(num);
+        }
+    });
+
+    return newArraySixCols;
+};
+
+const fiveColumnLayout = () => {
+    let fiveColsCounter = -1;
+    const fiveCols = numArrayKeys.map(() => {
+        return (fiveColsCounter += 5);
+    });
+
+    const newArrayFiveCols = {
+        col1: [],
+        col2: [],
+        col3: [],
+        col4: [],
+        col5: [],
+    };
+
+    numArrayKeys.map((num) => {
+        if (fiveCols.includes(num + 4)) {
+            newArrayFiveCols.col1.push(num);
+        } else if (fiveCols.includes(num + 3)) {
+            newArrayFiveCols.col2.push(num);
+        } else if (fiveCols.includes(num + 2)) {
+            newArrayFiveCols.col3.push(num);
+        } else if (fiveCols.includes(num + 1)) {
+            newArrayFiveCols.col4.push(num);
+        } else if (fiveCols.includes(num)) {
+            newArrayFiveCols.col5.push(num);
+        }
+    });
+
+    return newArrayFiveCols;
+};
 
 const fourColumnLayout = () => {
     let fourColsCounter = -1;
@@ -59,16 +124,8 @@ const fourColumnLayout = () => {
         }
     });
 
-    const sortParam = newArrayFourCols.col1.concat(
-        newArrayFourCols.col2.concat(
-            newArrayFourCols.col3.concat(newArrayFourCols.col4)
-        )
-    );
-
-    return sortParam;
+    return newArrayFourCols;
 };
-
-fourColumnLayout();
 
 const threeColumnLayout = () => {
     let threeColsCounter = -1;
@@ -88,11 +145,7 @@ const threeColumnLayout = () => {
         }
     });
 
-    const sortParam = newArrayThreeCols.col1.concat(
-        newArrayThreeCols.col2.concat(newArrayThreeCols.col3)
-    );
-
-    return sortParam;
+    return newArrayThreeCols;
 };
 
 const twoColumnLayout = () => {
@@ -111,44 +164,42 @@ const twoColumnLayout = () => {
         }
     });
 
-    const sortParam = newArrayTwoCols.col1.concat(newArrayTwoCols.col2);
-
-    return sortParam;
+    return newArrayTwoCols;
 };
 
 const rearangeColumns = () => {
     const notesWrapper = document.getElementById("notesWrapper");
     const columnsCalc = Math.floor(notesWrapper.clientWidth / 248);
-    // console.log(columnsCalc);
 
     switch (columnsCalc) {
         case 6:
+            columnDivs(6);
+            sixColumnLayout();
             console.log("I have 6 columns!");
             break;
         case 5:
+            columnDivs(5);
+            fiveColumnLayout();
             console.log("I have 5 columns!");
             break;
         case 4:
-            sortDivs(fourColumnLayout());
+            columnDivs(4);
+            fourColumnLayout();
             console.log("I have 4 columns!");
             break;
         case 3:
-            sortDivs(threeColumnLayout());
+            columnDivs(3);
+            threeColumnLayout();
             console.log("I have 3 columns!");
             break;
         case 2:
-            sortDivs(twoColumnLayout());
+            columnDivs(2);
+            twoColumnLayout();
             console.log("I have 2 columns!");
             break;
         case 1:
+            columnDivs(1);
             console.log("I have 1 column!");
             break;
     }
 };
-
-window.addEventListener("DOMContentLoaded", () => {
-    rearangeColumns();
-});
-window.addEventListener("resize", () => {
-    rearangeColumns();
-});
